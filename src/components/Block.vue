@@ -1,38 +1,36 @@
 <template>
   <!-- This block will show after the delay -->
-  <div class="block" v-if="showBlock">click me!</div>
+  <div class="block" v-show="showBlock" @click="stopTimer">click me!</div>
 </template>
 
 <script>
 export default {
-  props: ['delay'],
+  props: ['delay'], // prop obtained from App.js
   data() {
     return {
       showBlock: false,
+      timer: null,
+      reactionTime: 0
     }
   },
-  /*
-   Used to run code after the component has finished the initial rendering and created the DOM nodes
-   Mounting which sets a delay timer - the delay prop is the variable
-  */
   mounted() {
-    console.log('component mounted')
     setTimeout(() => {
       this.showBlock = true
-      console.log(this.delay)
+      this.startTimer()
     }, this.delay)
   },
-  /*
-   Fires this after the component has updated
-  */
-  updated() {
-    console.log('component updated')
-  },
-  /*
-   Fires this when the component unmounts - especially when changing pages
-  */
-  unmounted() {
-    console.log('component unmounted')
+  methods: {
+    startTimer() {
+      // start the timer, tick every 10ms - store interval
+      this.timer = setInterval(() => {
+        this.reactionTime += 10
+      }, 10)
+    },
+    stopTimer() {
+      // stop the timer - clear stored interval
+      clearInterval(this.timer)
+      console.log(this.reactionTime)
+    }
   }
 }
 </script>
