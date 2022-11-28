@@ -1,7 +1,8 @@
 <template>
   <h1>Ninja Reaction Timer</h1>
   <button @click="start" :disabled="isPlaying">play</button>
-  <Block v-if="isPlaying" :delay="delay" />
+  <Block v-if="isPlaying" :delay="delay" @end-game="endGame" />
+  <p v-if="showResults">Reaction Time: {{ score }} ms</p>
 </template>
 
 <script>
@@ -14,18 +15,28 @@ export default {
     Block,
     Results,
   },
+  // Usually set this as a starting point for your data
   data() {
     return {
       isPlaying: false,
       delay: null,
+      score: null,
+      showResults: false
     }
   },
+  // These help change your data or do something with the data
   methods: {
     start() {
       this.delay = 2000 + Math.random() * 5000 // a random number between 0 - 5000 milliseconds;
       this.isPlaying = true
+      this.showResults = false
     },
-  },
+    endGame(reactionTime) {
+      this.score = reactionTime
+      this.isPlaying = false;
+      this.showResults = true;
+    }
+  }
 }
 </script>
 

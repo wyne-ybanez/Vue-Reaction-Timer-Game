@@ -21,15 +21,20 @@ export default {
   },
   methods: {
     startTimer() {
-      // start the timer, tick every 10ms - store interval
+      /*
+      Start the timer, tick every 10ms - store interval
+      */
       this.timer = setInterval(() => {
         this.reactionTime += 10
       }, 10)
     },
     stopTimer() {
-      // stop the timer - clear stored interval
+      /**
+       * Stop the timer - clear stored interval
+       * Emits the "end-game" variable to the App.js
+      */
       clearInterval(this.timer)
-      console.log(this.reactionTime)
+      this.$emit('end-game', this.reactionTime)
     }
   }
 }
